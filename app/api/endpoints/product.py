@@ -39,3 +39,18 @@ async def create_product(
     """
     await check_category_exists(product.category_id, session)
     return await product_crud.create(product, session)
+
+
+@router.get(
+    "/{name}",
+    response_model=List[Product],
+    response_model_exclude_none=True,
+)
+async def get_product_by_name(
+    name: str,
+    session: AsyncSession = Depends(get_async_session),
+):
+    """
+    Получить продукт по имени.
+    """
+    return await product_crud.get_by_name(session, name)
